@@ -150,7 +150,19 @@ class Keeper {
 
       const blockNumber = this.blockQueue.shift();
       if (blockNumber) {
-        await this.processNewBlock(blockNumber);
+        try {
+          await this.processNewBlock(blockNumber);
+        } catch (error) {
+          this.logger.error(
+            `Error: Failed to process new block ${blockNumber} \n${String(
+              error
+            )}`
+          );
+        }
+        // Is this the best way to add an item first to the queue?
+        this.blockQueue = new Denque(
+          [blockNumber].concat(this.blockQueue.toArray())
+        );
       }
     }
   }
