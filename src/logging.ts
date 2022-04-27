@@ -1,6 +1,9 @@
 import winston, { format, transports } from "winston";
 import WinstonCloudWatch from "winston-cloudwatch";
 
+// This should create a new log stream every time the app starts
+const date = new Date();
+const logStreamName = date.toDateString() + " - " + date.getTime();
 export function createLogger({ componentName }: { componentName: string }) {
   const logger = winston.createLogger({
     level: "info",
@@ -34,7 +37,7 @@ export function createLogger({ componentName }: { componentName: string }) {
     logger.add(
       new WinstonCloudWatch({
         logGroupName,
-        logStreamName: logGroupName,
+        logStreamName,
         messageFormatter(x) {
           //passed in meta data is not available here :(
           return `${x.level} ${componentName} ${x.message}`;
