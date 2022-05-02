@@ -27,7 +27,6 @@
 		"@synthetixio/wei": "2.57.1",
 		"chalk": "4.1.1",
 		"commander": "9.0.0",
-		"denque": "2.0.1",
 		"dotenv": "10.0.0",
 		"eslint": "7.6.0",
 		"eslint-config-prettier": "3.6.0",
@@ -48,7 +47,6 @@
 		"prettier": "1.19.1",
 		"pretty-error": "3.0.4",
 		"prom-client": "14.0.0",
-		"synthetix": "2.67.0-alpha",
 		"typescript": "4.5.2",
 		"winston": "3.3.3",
 		"winston-cloudwatch": "4.0.1"
