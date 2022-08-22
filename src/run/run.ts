@@ -99,17 +99,29 @@ export async function run(
     useOvm: true,
   });
 
-  const marketContracts = marketsArray.map(market => contracts[`FuturesMarket${market.slice(1)}`]);
-  
-  for (const marketContract of marketContracts) {
-    const keeper = await deps.Keeper.create({
-      network,
-      futuresMarket: marketContract,
-      signerPool,
-      provider,
-    });
+  const marketContracts = marketsArray.map(market => {
+    const contract = contracts[`FuturesMarket${market.slice(1)}`];
+    if (!contract) {
+      logger.error(
+        `Missing contract for market ${market}, tried looking for: FuturesMarket${market.slice(
+          1
+        )}`
+      );
+    }
+    return contract;
+  });
 
-    keeper.run({ fromBlock });
+  for (const marketContract of marketContracts) {
+    if (marketContract) {
+      const keeper = await deps.Keeper.create({
+        network,
+        futuresMarket: marketContract,
+        signerPool,
+        provider,
+      });
+
+      keeper.run({ fromBlock });
+    }
   }
 }
 
